@@ -1,46 +1,32 @@
-import { Tabbar, TabbarItem, useAdaptivityConditionalRender } from '@vkontakte/vkui';
+import { Tabbar, TabbarItem } from '@vkontakte/vkui';
 import { Icon28HomeOutline, Icon28StatisticsOutline, Icon28UserCircleOutline } from '@vkontakte/icons';
 import PropTypes from 'prop-types';
+import '../assets/styles/blocks/_navigation-tabbar.scss';
 
 export const NavigationTabbar = ({ activePanel, setActivePanel }) => {
-	const { sizeX } = useAdaptivityConditionalRender();
-
-	const tabbarStyle =
-		sizeX.compact
-			? {
-				borderTopLeftRadius: 26,
-				borderTopRightRadius: 26,
-				left: '20%',
-				width: 'calc(100% - 40%)',
-			}
-			: {
-				borderTopLeftRadius: 26,
-				borderTopRightRadius: 26,
-			};
+	const isMobile = window.innerWidth <= 768;
+	const tabbarClass = `navigation-tabbar${isMobile ? '--small' : ''}`;
 
 	return (
-		<Tabbar style={tabbarStyle}>
+		<Tabbar className={tabbarClass}>
 			<TabbarItem
 				selected={activePanel === 'main'}
 				onClick={() => setActivePanel('main')}
-				text="Главная"
-				aria-label="Главная"
+				label="Главная"
 			>
 				<Icon28HomeOutline />
 			</TabbarItem>
 			<TabbarItem
 				selected={activePanel === 'stats'}
 				onClick={() => setActivePanel('stats')}
-				text="Статистика"
-				aria-label="Статистика"
+				label="Статистика"
 			>
 				<Icon28StatisticsOutline />
 			</TabbarItem>
 			<TabbarItem
 				selected={activePanel === 'profile'}
 				onClick={() => setActivePanel('profile')}
-				text="Профиль"
-				aria-label="Профиль"
+				label="Профиль"
 			>
 				<Icon28UserCircleOutline />
 			</TabbarItem>
