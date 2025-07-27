@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import '../assets/styles/blocks/_navigation-tabbar.scss';
 
 export const NavigationTabbar = ({ activePanel, setActivePanel }) => {
-	const isMobile = window.innerWidth <= 768;
-	const tabbarClass = `navigation-tabbar${isMobile ? '--small' : ''}`;
+	const isMobile = window.innerWidth <= 480;
+	const tabbarClass = isMobile ? '' : 'navigation-tabbar';
 
 	return (
 		<Tabbar className={tabbarClass}>
