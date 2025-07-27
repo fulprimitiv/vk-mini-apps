@@ -1,0 +1,102 @@
+.home {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	
+	&__title {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 8px;
+		margin-top: 30px;
+		margin-bottom: 0;
+	}
+
+	&__title-text {
+		font-family: "Alumni Sans SC", sans-serif;
+		font-size: 50px;
+		font-weight: 700;
+    	line-height: 70px;
+		user-select: none;
+
+		&--small {
+			font-size: 30px;
+			line-height: 50px;
+		}
+
+		&--light {
+			color: #2c2d2e;
+		}
+
+		&--dark {
+			color: #ffffff;
+		}
+
+		&--accent {
+			color: #1c5fff;
+		}
+	}
+
+	&__subtitle {
+		font-family: "Alumni Sans SC", sans-serif;
+		font-size: 20px;
+		font-weight: 400;
+		line-height: 20px;
+		text-align: center;
+		user-select: none;
+
+		&--light {
+			color: #2c2d2e;
+		}
+
+		&--dark {
+			color: #F0F0F0;
+		}
+	}
+
+	&__image {
+		width: 376px;
+		height: 376px;
+		margin: 0 auto 16px;
+		display: block;
+		-webkit-user-drag: none; 
+	}
+
+	&__button {
+		display: flex;
+		width: 227px;
+		height: 56px;
+		padding: 18px 16px;
+		justify-content: center;
+		align-items: center;
+		gap: 10px;
+		border: none;
+		box-shadow: none;
+		border-radius: 28px;
+		margin: 24px auto 0;
+
+		&--light {
+			background: #2C2D2E !important;
+		}
+
+		&--dark {
+			background: #ffffff !important;
+		}
+
+		&-text {
+			font-family: 'Nunito', sans-serif;
+			font-size: 20px;
+			font-weight: 900;
+			text-align: center;
+			width: 100%;
+
+			&--light {
+			color: #ffffff;
+			}
+
+			&--dark {
+				color: #1C5FFF;
+			}
+		}
+	}
+	}
