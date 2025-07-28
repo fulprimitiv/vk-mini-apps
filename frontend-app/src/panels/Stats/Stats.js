@@ -2,6 +2,7 @@ import { Panel, Group, SimpleCell, Div } from '@vkontakte/vkui';
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import bridge from '@vkontakte/vk-bridge';
+import './Stats.scss';
 
 export const Stats = ({ id }) => {
 	const [results, setResults] = useState([]);

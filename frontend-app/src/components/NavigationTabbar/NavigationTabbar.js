@@ -1,7 +1,7 @@
 import { Tabbar, TabbarItem } from '@vkontakte/vkui';
 import { Icon28HomeOutline, Icon28StatisticsOutline, Icon28UserCircleOutline } from '@vkontakte/icons';
 import PropTypes from 'prop-types';
-import '../assets/styles/blocks/_navigation-tabbar.scss';
+import './NavigationTabbar.scss';
 
 export const NavigationTabbar = ({ activePanel, setActivePanel }) => {
 	const isMobile = window.innerWidth <= 480;

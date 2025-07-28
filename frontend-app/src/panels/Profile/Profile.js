@@ -1,5 +1,6 @@
 import { Panel, Group, Cell, Avatar } from '@vkontakte/vkui';
 import PropTypes from 'prop-types';
+import './Profile.scss';
 
 export const Profile = ({ id, fetchedUser }) => (
 	<Panel id={id}>

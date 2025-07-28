@@ -2,10 +2,11 @@ import { useState, useEffect } from 'react';
 import bridge from '@vkontakte/vk-bridge';
 import '@vkontakte/vkui/dist/vkui.css';
 import { View, SplitLayout, SplitCol, ScreenSpinner, ConfigProvider, AdaptivityProvider, AppRoot } from '@vkontakte/vkui';
-import { NavigationTabbar } from './panels/NavigationTabbar';
-import { Home } from './panels/Home';
-import { Stats } from './panels/Stats';
-import { Profile } from './panels/Profile';
+import { NavigationTabbar } from './components/NavigationTabbar/NavigationTabbar';
+import { Home } from './panels/Home/Home';
+import { Stats } from './panels/Stats/Stats';
+import { Profile } from './panels/Profile/Profile';
+import { Game } from './panels/Game/Game';
 
 export const App = () => {
   const [activePanel, setActivePanel] = useState('main');
@@ -29,8 +30,15 @@ export const App = () => {
     });
   }, []);
 
-  const handlePlay = () => setShowTabbar(false);
-  const handleGameEnd = () => setShowTabbar(true);
+  const handlePlay = () => {
+    setShowTabbar(false);
+    setActivePanel('game');
+  };
+
+  const handleGameEnd = () => {
+    setShowTabbar(true);
+    setActivePanel('main');
+  };
 
 
   return (
@@ -43,6 +51,7 @@ export const App = () => {
                 <Home id="main" onPlay={handlePlay} fetchedUser={fetchedUser} appearance={appearance} />
                 <Stats id="stats" onGameEnd={handleGameEnd} />
                 <Profile id="profile" fetchedUser={fetchedUser} />
+                <Game id="game" onEnd={handleGameEnd} />
               </View>
               {showTabbar && (
                 <NavigationTabbar activePanel={activePanel} setActivePanel={setActivePanel} />

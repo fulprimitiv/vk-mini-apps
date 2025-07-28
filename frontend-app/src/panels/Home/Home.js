@@ -1,7 +1,7 @@
 import { Panel, Button } from '@vkontakte/vkui';
 import PropTypes from 'prop-types';
-import imgSrc from '../assets/images/searching - looking.svg';
-import '../assets/styles/blocks/_home.scss';
+import imgSrc from '../../assets/images/welcome-illustration.svg';
+import './Home.scss';
 
 export const Home = ({ id, onPlay, appearance }) => {
 	const isLight = appearance === 'light';
