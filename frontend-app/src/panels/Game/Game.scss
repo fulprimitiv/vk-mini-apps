@@ -77,6 +77,16 @@
 			box-shadow: 0 7px 0 #00B777;
 		}
 
+		&--correct {
+		background: #12D18E !important;
+		box-shadow: 0 7px 0 #00B777;
+		}
+
+		&--wrong {
+			background: #F75555 !important;
+			box-shadow: 0 7px 0 #C34141;
+		}
+		
 		&-text {
 			font-family: 'Nunito', sans-serif;
 			font-size: 30px;

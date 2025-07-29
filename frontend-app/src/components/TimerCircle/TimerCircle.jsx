@@ -2,17 +2,18 @@ import { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import './TimerCircle.scss';
 
-export const TimerCircle = ({ duration, onComplete, appearance }) => {
-	const isLight = appearance === 'light';
+export const TimerCircle = ({ duration = 4, onComplete, stopped }) => {
 	const [timeLeft, setTimeLeft] = useState(duration);
 	const radius = 29;
 	const stroke = 9;
 	const circumference = 2 * Math.PI * radius;
-
 	const intervalRef = useRef();
 
 	useEffect(() => {
 		const start = Date.now();
+
+		if (stopped) return;
+
 		intervalRef.current = setInterval(() => {
 			const delta = (Date.now() - start) / 1000;
 			const remaining = Math.max(duration - delta, 0);
@@ -25,7 +26,7 @@ export const TimerCircle = ({ duration, onComplete, appearance }) => {
 		}, 100);
 
 		return () => clearInterval(intervalRef.current);
-	}, [duration, onComplete]);
+	}, [duration, onComplete, stopped]);
 
 	const progress = (timeLeft / duration) * circumference;
 
@@ -41,7 +42,6 @@ export const TimerCircle = ({ duration, onComplete, appearance }) => {
 					opacity="0.1"
 					fill="none"
 				/>
-
 				<circle
 					cx="34"
 					cy="34"
@@ -56,8 +56,7 @@ export const TimerCircle = ({ duration, onComplete, appearance }) => {
 					style={{ transition: 'stroke-dashoffset 0.1s linear' }}
 				/>
 			</svg>
-
-			<div className={`timer-circle__text timer-circle__text--${isLight ? 'light' : 'dark'}`}>{timeLeft.toFixed(1)}</div>
+			<div className="timer-circle__text">{timeLeft.toFixed(1)}</div>
 		</div>
 	);
 };
@@ -65,5 +64,5 @@ export const TimerCircle = ({ duration, onComplete, appearance }) => {
 TimerCircle.propTypes = {
 	duration: PropTypes.number.isRequired,
 	onComplete: PropTypes.func.isRequired,
-	appearance: PropTypes.string.isRequired
+	stopped: PropTypes.bool,
 };
