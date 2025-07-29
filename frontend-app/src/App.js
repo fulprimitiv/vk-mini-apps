@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import bridge from '@vkontakte/vk-bridge';
 import '@vkontakte/vkui/dist/vkui.css';
-import { View, SplitLayout, SplitCol, ScreenSpinner, ConfigProvider, AdaptivityProvider, AppRoot } from '@vkontakte/vkui';
+import { View, SplitLayout, SplitCol, ConfigProvider, AdaptivityProvider, AppRoot } from '@vkontakte/vkui';
 import { NavigationTabbar } from './components/NavigationTabbar/NavigationTabbar';
 import { Home } from './panels/Home/Home';
 import { Stats } from './panels/Stats/Stats';
@@ -12,14 +12,12 @@ export const App = () => {
   const [activePanel, setActivePanel] = useState('main');
   const [showTabbar, setShowTabbar] = useState(true);
   const [fetchedUser, setUser] = useState();
-  const [popout, setPopout] = useState(<ScreenSpinner />);
   const [appearance, setAppearance] = useState('dark');
 
   useEffect(() => {
     async function fetchData() {
       const user = await bridge.send('VKWebAppGetUserInfo');
       setUser(user);
-      setPopout(null);
     }
     fetchData();
 
@@ -45,13 +43,13 @@ export const App = () => {
     <ConfigProvider appearance={appearance}>
       <AdaptivityProvider>
         <AppRoot>
-          <SplitLayout popout={popout}>
+          <SplitLayout>
             <SplitCol>
               <View activePanel={activePanel}>
                 <Home id="main" onPlay={handlePlay} fetchedUser={fetchedUser} appearance={appearance} />
                 <Stats id="stats" onGameEnd={handleGameEnd} />
                 <Profile id="profile" fetchedUser={fetchedUser} />
-                <Game id="game" onEnd={handleGameEnd} />
+                <Game id="game" onEnd={handleGameEnd} appearance={appearance} />
               </View>
               {showTabbar && (
                 <NavigationTabbar activePanel={activePanel} setActivePanel={setActivePanel} />

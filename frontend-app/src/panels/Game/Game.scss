@@ -1,0 +1,91 @@
+.game {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	&__title {
+		font-family: 'Nunito', sans-serif;
+		font-size: 40px;
+		font-weight: 700;
+		text-align: center;
+		line-height: 160%; // 64px
+		user-select: none;
+		margin: 0px;
+
+		&--light {
+			color: #2C2D2E !important;
+		}
+
+		&--dark {
+			color: #ffffff !important;
+		}
+	}
+
+	&__task {
+		font-family: 'Nunito', sans-serif;
+		font-size: 50px;
+		font-weight: 700;
+		text-align: center;
+		line-height: 160%; // 80px
+		margin-bottom: 24px;
+		user-select: none;
+
+		&--light {
+			color: #2C2D2E !important;
+		}
+
+		&--dark {
+			color: #ffffff !important;
+		}
+	}
+
+	&__answers {
+		display: flex;
+		flex-direction: column;
+		gap: 30px;
+		width: 100%;
+		max-width: 320px;
+	}
+
+	&__answer {
+		border-radius: 100px;
+		color: #fff;
+		font-size: 20px;
+		font-weight: 700;
+		font-family: 'Nunito', sans-serif;
+		text-align: center;
+		padding: 14px 0 7px;
+		box-shadow: 0 7px 0;
+
+		&--blue {
+			background: #3779FF !important;
+			box-shadow: 0 7px 0 #295ECC;
+		}
+
+		&--red {
+			background: #F75555 !important;
+			box-shadow: 0 7px 0 #C34141;
+		}
+
+		&--orange {
+			background: #FF981F !important;
+			box-shadow: 0 7px 0 #F48400;
+		}
+
+		&--green {
+			background: #12D18E !important;
+			box-shadow: 0 7px 0 #00B777;
+		}
+
+		&-text {
+			font-family: 'Nunito', sans-serif;
+			font-size: 30px;
+			font-weight: 700;
+			text-align: center;
+			width: 100%;
+			color: #ffffff;
+			font-style: normal;
+			line-height: 100%; 
+		}
+	}
+}
