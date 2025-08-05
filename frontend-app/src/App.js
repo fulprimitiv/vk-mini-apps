@@ -7,6 +7,7 @@ import { Home } from './panels/Home/Home';
 import { Stats } from './panels/Stats/Stats';
 import { Profile } from './panels/Profile/Profile';
 import { Game } from './panels/Game/Game';
+import { GameOver } from './panels/GameOver/GameOver';
 
 export const App = () => {
   const [activePanel, setActivePanel] = useState('main');
@@ -34,6 +35,11 @@ export const App = () => {
   };
 
   const handleGameEnd = () => {
+    setShowTabbar(false);
+    setActivePanel('gameover');
+  };
+
+  const handleGoToMain = () => {
     setShowTabbar(true);
     setActivePanel('main');
   };
@@ -46,10 +52,11 @@ export const App = () => {
           <SplitLayout>
             <SplitCol>
               <View activePanel={activePanel}>
-                <Home id="main" onPlay={handlePlay} fetchedUser={fetchedUser} appearance={appearance} />
-                <Stats id="stats" onGameEnd={handleGameEnd} />
+                <Home id="main" onPlay={handlePlay} appearance={appearance} />
+                <Stats id="stats" />
                 <Profile id="profile" fetchedUser={fetchedUser} />
                 <Game id="game" onEnd={handleGameEnd} appearance={appearance} />
+                <GameOver id="gameover" onPlay={handlePlay} onMain={handleGoToMain} />
               </View>
               {showTabbar && (
                 <NavigationTabbar activePanel={activePanel} setActivePanel={setActivePanel} />
