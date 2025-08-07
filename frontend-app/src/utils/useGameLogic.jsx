@@ -7,6 +7,7 @@ export const useGameLogic = (onEnd) => {
 	const [answers, setAnswers] = useState(generateAnswers(example.answer));
 	const [isAnswered, setIsAnswered] = useState(false);
 	const [timeStopped, setTimeStopped] = useState(false);
+	const [score, setScore] = useState(0);
 	const timerRef = useRef(null);
 
 	const resetRound = () => {
@@ -24,16 +25,17 @@ export const useGameLogic = (onEnd) => {
 		clearTimeout(timerRef.current);
 
 		if (value === example.answer) {
+			setScore((prev) => prev + 1); // Увеличиваем счёт
 			timerRef.current = setTimeout(() => resetRound(), 800);
 		} else {
-			timerRef.current = setTimeout(onEnd, 800);
+			timerRef.current = setTimeout(() => onEnd(score), 800); // Передаём счёт
 		}
 	};
 
 	const stopGame = () => {
 		setIsAnswered(true);
 		setTimeStopped(true);
-		setTimeout(() => onEnd(), 800);
+		setTimeout(() => onEnd(score), 800); // Передаём счёт
 	};
 
 	return {
@@ -43,5 +45,6 @@ export const useGameLogic = (onEnd) => {
 		timeStopped,
 		handleAnswerClick,
 		stopGame,
+		score,
 	};
 };

@@ -20,8 +20,10 @@ export const Game = ({ id, onEnd, appearance }) => {
 		isAnswered,
 		timeStopped,
 		handleAnswerClick,
-		stopGame
-	} = useGameLogic(onEnd);
+		stopGame,
+	} = useGameLogic((finalScore) => {
+		onEnd(finalScore);
+	});
 
 	const getButtonClass = (ans) => {
 		if (!isAnswered) return '';

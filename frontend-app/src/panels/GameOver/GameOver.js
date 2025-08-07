@@ -5,7 +5,17 @@ import homeIcon from '../../assets/images/home-icon.svg';
 import playIcon from '../../assets/images/play-icon.svg';
 import './GameOver.scss';
 
-export const GameOver = ({ id, onPlay, onMain }) => {
+export const GameOver = ({ id, onPlay, onMain, score }) => {
+	const getPointsWord = (num) => {
+		const lastDigit = num % 10;
+		const lastTwoDigits = num % 100;
+
+		if (lastTwoDigits >= 11 && lastTwoDigits <= 14) return 'очков';
+		if (lastDigit === 1) return 'очко';
+		if (lastDigit >= 2 && lastDigit <= 4) return 'очка';
+		return 'очков';
+	};
+
 	return (
 		<Panel id={id}>
 			<Div className="game-over">
@@ -16,8 +26,8 @@ export const GameOver = ({ id, onPlay, onMain }) => {
 					<div className="game-over__card-score">
 						<div className="game-over__card-score-label">Счёт</div>
 						<div className="game-over__card-score-divider" />
-						<div className="game-over__card-score-value">15</div>
-						<div className="game-over__card-score-unit">очков</div>
+						<div className="game-over__card-score-value">{score}</div>
+						<div className="game-over__card-score-unit">{getPointsWord(score)}</div>
 					</div>
 				</div>
 
@@ -45,4 +55,5 @@ GameOver.propTypes = {
 	id: PropTypes.string.isRequired,
 	onPlay: PropTypes.func.isRequired,
 	onMain: PropTypes.func.isRequired,
+	score: PropTypes.number.isRequired,
 };

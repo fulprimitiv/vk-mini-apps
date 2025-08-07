@@ -74,6 +74,18 @@
 		box-shadow: none;
 		border-radius: 28px;
 		margin: 24px auto 0;
+		cursor: pointer;
+
+		transition: transform 0.1s ease, box-shadow 0.1s ease;
+
+		&:active {
+			transform: scale(0.97);
+			box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+		}
+
+		&:hover {
+			transform: scale(1.02);
+		}
 
 		&--light {
 			background: #2C2D2E !important;
@@ -99,4 +111,4 @@
 			}
 		}
 	}
-	}
+}

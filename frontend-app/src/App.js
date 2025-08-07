@@ -4,7 +4,7 @@ import '@vkontakte/vkui/dist/vkui.css';
 import { View, SplitLayout, SplitCol, ConfigProvider, AdaptivityProvider, AppRoot } from '@vkontakte/vkui';
 import { NavigationTabbar } from './components/NavigationTabbar/NavigationTabbar';
 import { Home } from './panels/Home/Home';
-import { Stats } from './panels/Stats/Stats';
+import { Statistics } from './panels/Statistics/Statistics';
 import { Profile } from './panels/Profile/Profile';
 import { Game } from './panels/Game/Game';
 import { GameOver } from './panels/GameOver/GameOver';
@@ -14,6 +14,7 @@ export const App = () => {
   const [showTabbar, setShowTabbar] = useState(true);
   const [fetchedUser, setUser] = useState();
   const [appearance, setAppearance] = useState('dark');
+  const [score, setScore] = useState(0);
 
   useEffect(() => {
     async function fetchData() {
@@ -34,7 +35,8 @@ export const App = () => {
     setActivePanel('game');
   };
 
-  const handleGameEnd = () => {
+  const handleGameEnd = (finalScore) => {
+    setScore(finalScore);
     setShowTabbar(false);
     setActivePanel('gameover');
   };
@@ -53,10 +55,10 @@ export const App = () => {
             <SplitCol>
               <View activePanel={activePanel}>
                 <Home id="main" onPlay={handlePlay} appearance={appearance} />
-                <Stats id="stats" />
+                <Statistics id="stats" onReplay={handlePlay} />
                 <Profile id="profile" fetchedUser={fetchedUser} />
                 <Game id="game" onEnd={handleGameEnd} appearance={appearance} />
-                <GameOver id="gameover" onPlay={handlePlay} onMain={handleGoToMain} />
+                <GameOver id="gameover" onPlay={handlePlay} onMain={handleGoToMain} score={score} />
               </View>
               {showTabbar && (
                 <NavigationTabbar activePanel={activePanel} setActivePanel={setActivePanel} />

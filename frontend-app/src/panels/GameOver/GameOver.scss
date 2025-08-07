@@ -27,6 +27,7 @@
 		&-title {
 		margin: 0;
 		color: #1C5FFF;
+		user-select: none;
 		text-align: center;
 		font-family: 'Nunito', sans-serif;
 		font-size: 24px;
@@ -38,6 +39,8 @@
 			color: #1C5FFF;
 			font-family: 'Nunito', sans-serif;
 			font-weight: 500;
+			user-select: none;
+			user-select: none;
 			display: flex;
 			align-items: center;
 			justify-content: center;
@@ -74,17 +77,28 @@
 	}
 
 	&__button {
-		border-radius: 12px;
+		border-radius: 28px;
 		background: #1C5FFF !important;
 		text-align: center;
 		width: 151px;
 		height: 66px;
 		flex-shrink: 0;
-		box-shadow: 0 7px 0 #174CCA;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		padding: 0;
+		cursor: pointer;
+		transition: transform 0.1s ease, box-shadow 0.1s ease;
+
+		&:hover {
+			transform: scale(1.02);
+			box-shadow: 0 7px 0 #174CCA;
+		}
+
+		&:active {
+			transform: translateY(3px);
+			box-shadow: 0 4px 0 #174CCA;
+		}
 
 		&-content {
 			display: flex;
