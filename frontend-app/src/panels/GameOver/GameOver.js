@@ -4,6 +4,8 @@ import imgSrc from '../../assets/images/game-over.svg';
 import homeIcon from '../../assets/images/home-icon.svg';
 import playIcon from '../../assets/images/play-icon.svg';
 import './GameOver.scss';
+import { useEffect } from 'react';
+import { saveGameResult } from '../../utils/storage';
 
 export const GameOver = ({ id, onPlay, onMain, score }) => {
 	const getPointsWord = (num) => {
@@ -15,6 +17,10 @@ export const GameOver = ({ id, onPlay, onMain, score }) => {
 		if (lastDigit >= 2 && lastDigit <= 4) return 'очка';
 		return 'очков';
 	};
+
+	useEffect(() => {
+		saveGameResult(score);
+	}, [score]);
 
 	return (
 		<Panel id={id}>

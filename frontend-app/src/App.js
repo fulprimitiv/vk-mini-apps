@@ -14,7 +14,11 @@ export const App = () => {
   const [showTabbar, setShowTabbar] = useState(true);
   const [fetchedUser, setUser] = useState();
   const [appearance, setAppearance] = useState('dark');
+
   const [score, setScore] = useState(0);
+  const [bestScore, setBestScore] = useState(0);
+  const [totalGames, setTotalGames] = useState(0);
+  const [avgScore, setAvgScore] = useState(0);
 
   useEffect(() => {
     async function fetchData() {
@@ -37,6 +41,11 @@ export const App = () => {
 
   const handleGameEnd = (finalScore) => {
     setScore(finalScore);
+
+    setTotalGames((prev) => prev + 1);
+    if (finalScore > bestScore) setBestScore(finalScore);
+    setAvgScore((prev) => ((prev * totalGames) + finalScore) / (totalGames + 1));
+
     setShowTabbar(false);
     setActivePanel('gameover');
   };
@@ -46,7 +55,6 @@ export const App = () => {
     setActivePanel('main');
   };
 
-
   return (
     <ConfigProvider appearance={appearance}>
       <AdaptivityProvider>
@@ -55,11 +63,18 @@ export const App = () => {
             <SplitCol>
               <View activePanel={activePanel}>
                 <Home id="main" onPlay={handlePlay} appearance={appearance} />
-                <Statistics id="stats" onReplay={handlePlay} />
-                <Profile id="profile" fetchedUser={fetchedUser} />
+                <Statistics id="stats" onReplay={handlePlay} stats={[]} />
+                <Profile
+                  id="profile"
+                  fetchedUser={fetchedUser}
+                  bestScore={bestScore}
+                  totalGames={totalGames}
+                  avgScore={avgScore.toFixed(1)}
+                />
                 <Game id="game" onEnd={handleGameEnd} appearance={appearance} />
                 <GameOver id="gameover" onPlay={handlePlay} onMain={handleGoToMain} score={score} />
               </View>
+
               {showTabbar && (
                 <NavigationTabbar activePanel={activePanel} setActivePanel={setActivePanel} />
               )}

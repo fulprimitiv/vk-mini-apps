@@ -92,12 +92,10 @@
 
 		&:hover {
 			transform: scale(1.02);
-			box-shadow: 0 7px 0 #174CCA;
 		}
 
 		&:active {
 			transform: translateY(3px);
-			box-shadow: 0 4px 0 #174CCA;
 		}
 
 		&-content {

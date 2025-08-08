@@ -1,40 +1,71 @@
 .profile {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	text-align: center;
-
-	&__avatar {
-		margin-bottom: 12px;
-	}
-
-	&__name {
-		margin-bottom: 4px;
-	}
-
-	&__location {
-		color: var(--vkui--color_text_secondary);
-	}
-
-	&__stats {
-		display: flex;
-		justify-content: space-around;
-		padding: 12px 0;
-	}
-
-	&__stat {
+	margin-top: 10%;
+	&__header {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		margin-bottom: 40px;
 	}
 
-	&__stat-value {
+	&__name {
+		margin-top: 20px;
+		font-weight: 600;
 		font-size: 20px;
-		font-weight: bold;
+		text-align: center;
 	}
 
-	&__stat-label {
-		font-size: 14px;
-		color: var(--vkui--color_text_secondary);
+	&__stats-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+		gap: 12px;
+	}
+
+	&__stat-card {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		padding: 14px;
+		text-align: center;
+		border-radius: 12px;
+
+		.vkuiTitle {
+			margin-top: 4px;
+			font-size: 22px;
+			font-weight: bold;
+		}
+
+		.profile__stat-label {
+			font-size: 14px;
+			color: var(--vkui--color_text_secondary);
+			margin-top: 2px;
+		}
+	}
+
+		&__actions {
+		display: flex;
+		justify-content: center;
+		flex-wrap: wrap; 
+		gap: 16px; 
+		margin-top: 50px;
+	}
+
+	&__stat-icon {
+		width: 28px;
+		height: 28px;
+		margin-bottom: 6px;
+
+		&.gold {
+			color: #f2b600;
+		}
+		&.blue {
+			color: #4a90e2;
+		}
+		&.green {
+			color: #4caf50;
+		}
+	}
+
+	&__buttons {
+		margin-top: 20px;
 	}
 }
