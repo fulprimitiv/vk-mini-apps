@@ -1,23 +1,43 @@
 import { Panel, Div, Button } from '@vkontakte/vkui';
 import PropTypes from 'prop-types';
 import { Icon24Replay } from '@vkontakte/icons';
+import { useEffect, useState } from 'react';
+import { loadStats } from '../../utils/storage';
 import './Statistics.scss';
 
-const mockStats = [
-	{ score: 35, date: 'Сегодня, 13:45' },
-	{ score: 28, date: 'Вчера, 19:22' },
-	{ score: 40, date: '03.08.2025, 15:30' },
-	{ score: 22, date: '02.08.2025, 11:15' },
-	{ score: 50, date: '01.08.2025, 20:00' },
-	{ score: 30, date: '31.07.2025, 14:10' },
-	{ score: 45, date: '30.07.2025, 16:25' },
-	{ score: 38, date: '29.07.2025, 18:05' },
-	{ score: 27, date: '28.07.2025, 12:30' },
-	{ score: 33, date: '27.07.2025, 17:55' },
-];
-
 export const Statistics = ({ id, onReplay }) => {
-	const sortedStats = [...mockStats].sort((a, b) => b.score - a.score);
+	const [stats, setStats] = useState(null);
+	useEffect(() => {
+		async function fetchStats() {
+			const loadedStats = await loadStats();
+			setStats(loadedStats);
+		}
+		fetchStats();
+	}, []);
+
+	if (stats === null) {
+		return (
+			<Panel id={id}>
+				<Div className="statistics" style={{ textAlign: 'center', paddingTop: 50 }}>
+					<h2 className="statistics__title">Загрузка...</h2>
+				</Div>
+			</Panel>
+		);
+	}
+
+	if (stats.length === 0) {
+		return (
+			<Panel id={id}>
+				<Div className="statistics" style={{ textAlign: 'center', paddingTop: 50 }}>
+					<h2 className="statistics__title">Твоя статистика</h2>
+					<p>Статистика пока пуста. Сыграй парочку игр, чтобы увидеть результаты.</p>
+					<Button size="l" mode="primary" onClick={onReplay}>Начать игру</Button>
+				</Div>
+			</Panel>
+		);
+	}
+
+	const sortedStats = [...stats].sort((a, b) => b.score - a.score);
 
 	return (
 		<Panel id={id}>

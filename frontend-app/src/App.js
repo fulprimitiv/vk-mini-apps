@@ -16,14 +16,30 @@ export const App = () => {
   const [appearance, setAppearance] = useState('dark');
 
   const [score, setScore] = useState(0);
-  const [bestScore, setBestScore] = useState(0);
-  const [totalGames, setTotalGames] = useState(0);
-  const [avgScore, setAvgScore] = useState(0);
+  const [stats, setStats] = useState([]);
+
+  const totalGames = stats.length;
+  const bestScore = totalGames ? Math.max(...stats.map(s => s.score)) : 0;
+  const avgScore = totalGames
+    ? (stats.reduce((acc, cur) => acc + cur.score, 0) / totalGames)
+    : 0;
 
   useEffect(() => {
     async function fetchData() {
       const user = await bridge.send('VKWebAppGetUserInfo');
       setUser(user);
+
+      try {
+        const storage = await bridge.send("VKWebAppStorageGet", { keys: ["stats"] });
+        if (storage.keys.length > 0) {
+          const savedStats = JSON.parse(storage.keys[0].value);
+          if (Array.isArray(savedStats)) {
+            setStats(savedStats);
+          }
+        }
+      } catch (error) {
+        console.error("Ошибка при загрузке статистики:", error);
+      }
     }
     fetchData();
 
@@ -39,20 +55,67 @@ export const App = () => {
     setActivePanel('game');
   };
 
-  const handleGameEnd = (finalScore) => {
+  const handleGameEnd = async (finalScore) => {
     setScore(finalScore);
-
-    setTotalGames((prev) => prev + 1);
-    if (finalScore > bestScore) setBestScore(finalScore);
-    setAvgScore((prev) => ((prev * totalGames) + finalScore) / (totalGames + 1));
-
     setShowTabbar(false);
     setActivePanel('gameover');
+
+    const now = new Date();
+    const dateStr = now.toLocaleString('ru-RU', {
+      day: '2-digit', month: '2-digit', year: 'numeric',
+      hour: '2-digit', minute: '2-digit'
+    });
+
+    const newStats = [...stats, { score: finalScore, date: dateStr }];
+
+    setStats(newStats);
+
+    try {
+      await bridge.send("VKWebAppStorageSet", {
+        key: "stats",
+        value: JSON.stringify(newStats)
+      });
+    } catch (error) {
+      console.error("Ошибка при сохранении статистики:", error);
+    }
   };
 
   const handleGoToMain = () => {
     setShowTabbar(true);
     setActivePanel('main');
+  };
+
+  // Важно! Событие станет доступно пользователям после того, как ваше приложение пройдёт модерацию. 
+  // https://dev.vk.com/ru/bridge/VKWebAppShare
+  const handleShare = () => {
+    bridge.send('VKWebAppShare', {
+      link: 'https://vk.com/app53960088',
+      text: `Я набрал ${score} ${getPointsLabel(score)} в этой крутой игре! Попробуй и ты!`
+    });
+  };
+
+  const getPointsLabel = (score) => {
+    const lastDigit = score % 10;
+    const lastTwoDigits = score % 100;
+
+    if (lastTwoDigits >= 11 && lastTwoDigits <= 14) return 'очков';
+    if (lastDigit === 1) return 'очко';
+    if (lastDigit >= 2 && lastDigit <= 4) return 'очка';
+    return 'очков';
+  };
+
+  const handleReset = async () => {
+    setStats([]);
+    setScore(0);
+
+    try {
+      await bridge.send("VKWebAppStorageSet", {
+        key: "stats",
+        value: JSON.stringify([])
+      });
+    } catch (error) {
+      console.error("Ошибка при очистке хранилища:", error);
+    }
   };
 
   return (
@@ -63,13 +126,15 @@ export const App = () => {
             <SplitCol>
               <View activePanel={activePanel}>
                 <Home id="main" onPlay={handlePlay} appearance={appearance} />
-                <Statistics id="stats" onReplay={handlePlay} stats={[]} />
+                <Statistics id="stats" stats={stats} onReplay={handlePlay} />
                 <Profile
                   id="profile"
                   fetchedUser={fetchedUser}
                   bestScore={bestScore}
                   totalGames={totalGames}
-                  avgScore={avgScore.toFixed(1)}
+                  avgScore={avgScore}
+                  onShare={handleShare}
+                  onReset={handleReset}
                 />
                 <Game id="game" onEnd={handleGameEnd} appearance={appearance} />
                 <GameOver id="gameover" onPlay={handlePlay} onMain={handleGoToMain} score={score} />

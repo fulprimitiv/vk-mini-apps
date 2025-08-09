@@ -6,8 +6,6 @@ import {
 	Icon28GraphOutline,
 } from '@vkontakte/icons';
 import { Icon28ShareOutline, Icon28RepeatOutline } from '@vkontakte/icons';
-
-
 import './Profile.scss';
 
 export const Profile = ({
@@ -16,6 +14,8 @@ export const Profile = ({
 	bestScore,
 	totalGames,
 	avgScore,
+	onShare,
+	onReset,
 }) => {
 	return (
 		<Panel id={id}>
@@ -46,7 +46,7 @@ export const Profile = ({
 
 					<Card mode="shadow" className="profile__stat-card">
 						<Icon28GraphOutline className="profile__stat-icon green" />
-						<Title level="2" weight="2">{avgScore}</Title>
+						<Title level="2" weight="2">{avgScore.toFixed(1)}</Title>
 						<span className="profile__stat-label">Средний счёт</span>
 					</Card>
 				</div>
@@ -57,6 +57,7 @@ export const Profile = ({
 						mode="primary"
 						stretched
 						before={<Icon28ShareOutline />}
+						onClick={onShare}
 					>
 						Поделиться
 					</Button>
@@ -66,6 +67,7 @@ export const Profile = ({
 						mode="secondary"
 						stretched
 						before={<Icon28RepeatOutline />}
+						onClick={onReset}
 					>
 						Сбросить
 					</Button>

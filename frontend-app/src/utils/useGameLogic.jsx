@@ -25,17 +25,17 @@ export const useGameLogic = (onEnd) => {
 		clearTimeout(timerRef.current);
 
 		if (value === example.answer) {
-			setScore((prev) => prev + 1); // Увеличиваем счёт
+			setScore((prev) => prev + 1);
 			timerRef.current = setTimeout(() => resetRound(), 800);
 		} else {
-			timerRef.current = setTimeout(() => onEnd(score), 800); // Передаём счёт
+			timerRef.current = setTimeout(() => onEnd(score), 800);
 		}
 	};
 
 	const stopGame = () => {
 		setIsAnswered(true);
 		setTimeStopped(true);
-		setTimeout(() => onEnd(score), 800); // Передаём счёт
+		setTimeout(() => onEnd(score), 800);
 	};
 
 	return {

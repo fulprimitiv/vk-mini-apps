@@ -1,13 +1,20 @@
-import { Panel, Div, Button } from '@vkontakte/vkui';
+import { Panel, Div, Button, Spinner } from '@vkontakte/vkui';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import imgSrc from '../../assets/images/game-over.svg';
 import homeIcon from '../../assets/images/home-icon.svg';
 import playIcon from '../../assets/images/play-icon.svg';
 import './GameOver.scss';
-import { useEffect } from 'react';
-import { saveGameResult } from '../../utils/storage';
 
 export const GameOver = ({ id, onPlay, onMain, score }) => {
+	const [loaded, setLoaded] = useState(false);
+
+	useEffect(() => {
+		const img = new Image();
+		img.src = imgSrc;
+		img.onload = () => setLoaded(true);
+	}, []);
+
 	const getPointsWord = (num) => {
 		const lastDigit = num % 10;
 		const lastTwoDigits = num % 100;
@@ -18,9 +25,15 @@ export const GameOver = ({ id, onPlay, onMain, score }) => {
 		return 'очков';
 	};
 
-	useEffect(() => {
-		saveGameResult(score);
-	}, [score]);
+	if (!loaded) {
+		return (
+			<Panel id={id}>
+				<Div style={{ display: 'flex', justifyContent: 'center', marginTop: 100 }}>
+					<Spinner />
+				</Div>
+			</Panel>
+		);
+	}
 
 	return (
 		<Panel id={id}>
